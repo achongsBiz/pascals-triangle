@@ -38,7 +38,7 @@ function renderPascal() {
 
             if (i == lastRow) {
                rowFormatBegin = "<span id=\"coefficient\" style=\"color\:red\">";
-               rowFormatEnd = "</span>"
+               rowFormatEnd = "</span>";
             }
             tableHTML = tableHTML + "<td>" + rowFormatBegin + pascal[i][j] + rowFormatEnd + "</td>";
       }
