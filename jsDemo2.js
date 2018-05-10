@@ -336,25 +336,25 @@ function validateInput() {
    if (!(symbol.value == "+" || symbol.value == "-")) {
       symbol.style.backgroundColor = "orange";
       validationPass = false;
-      errorMessages[0] = "Please enter a + or - for the operation."
+      errorMessages[0] = "Please enter a + or - for the operation.";
    }
 
    if (!regexMatch(operandCheck, operand1.value)) {
       operand1.style.backgroundColor = "orange";
       validationPass = false;
-      errorMessages[1] = "Please enter a letter or number for the 1st operand."
+      errorMessages[1] = "Please enter a letter or number for the 1st operand.";
    }
 
    if (!regexMatch(operandCheck, operand2.value)) {
       operand2.style.backgroundColor = "orange";
       validationPass = false;
-      errorMessages[2] = "Please enter a letter or number for the 2nd operand."
+      errorMessages[2] = "Please enter a letter or number for the 2nd operand.";
    }
 
    if (!regexMatch(exponentCheck, exponent.value)) {
       exponent.style.backgroundColor = "orange";
       validationPass = false;
-      errorMessages[3] = "Please enter a number between 1 and 9 for the exponent."
+      errorMessages[3] = "Please enter a number between 1 and 9 for the exponent.";
    }
 
    if (operand1.value == operand2.value) {
@@ -365,13 +365,13 @@ function validateInput() {
    }
 
    if (validationPass == false) {
-      errorMessagetxt += "<ul>"
+      errorMessagetxt += "<ul>";
       for (var i=0; i < 5; i++) {
          if (errorMessages[i].length > 0) {
             errorMessagetxt = errorMessagetxt + "<li>" + errorMessages[i] + "</li>";
          }
       }
-      errorMessagetxt += "</ul>"
+      errorMessagetxt += "</ul>";
    }
 
    statusBox.innerHTML = errorMessagetxt;
