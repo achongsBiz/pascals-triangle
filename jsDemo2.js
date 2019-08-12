@@ -3,34 +3,35 @@ Module: jsDemo2.js
 Project: jsDemo2
 Log:
 20180506 - Initial revision.
+20190811 - Made code more functional and added JSDoc
 ********************************************/
 
-/**********
+/**
 Function controls script flow.
-**********/
+*/
 function submitAction() {
 
    var validationCheck = validateInput();
    if (validationCheck)
    {
       renderPascal();
-      expandPoly();
+      renderPoly();
    }
 }
 
-/**********
+/**
 Function renders Pascal's triangle into HTML.
-**********/
+*/
 function renderPascal() {
 
-   var updateArea = document.getElementById("triangleArea");
-   var pascal = buildPascal();
-   var lastRow = pascal.length - 1;
-   var tableHTML = "<strong>Pascal's Triangle based on input:</strong><br><table>";
-   var rowFormatBegin = "";
-   var rowFormatEnd = "";
+   let exponent = document.getElementById("exponent").value;
+   let pascal = buildPascal(exponent);
+   let lastRow = pascal.length - 1;
+   let tableHTML = "<strong>Pascal's Triangle based on input:</strong><br><table>";
+   let rowFormatBegin = "";
+   let rowFormatEnd = "";
 
-   for (var i=0; i < pascal.length; i++) {
+   for (let i=0; i < pascal.length; i++) {
 
       tableHTML += "<tr>";
 
@@ -46,24 +47,26 @@ function renderPascal() {
    }
 
    tableHTML += "</table>";
-   updateArea.innerHTML = tableHTML;
+
+   updateElement("triangleArea", tableHTML);
 }
 
-/**********
+/**
 Function contains algorithm to build Pascal's triangle.
-**********/
-function buildPascal(){
+@param {Number} exponent Exponent input.
+@return {Array} Pascal's triangle in array form.
+*/
+function buildPascal(exponent){
 
-   var triangle = new Array();
-   var exponent = document.getElementById("exponent").value;
-   var triangleLength = parseInt(exponent) + 1;
+   let triangle = new Array();
+   let triangleLength = parseInt(exponent) + 1;
 
    // Initialize second layer of arrays.
-   for (var i=0; i < triangleLength; i++) {
+   for (let i=0; i < triangleLength; i++) {
       triangle[i] = new Array();
    }
 
-   for (var i=0; i< triangle.length; i++) {
+   for (let i=0; i< triangle.length; i++) {
 
       // Build first two rows.  [0]: 1 > [1]: 1,1
       if (i==0) {
@@ -75,8 +78,8 @@ function buildPascal(){
 
       // Build remaining rows. [2]: 1,2,1 > [3]: 1,3,3,1 > [n]: etc.
       else {
-         var rowLength = i + 1;
-         var newRow = new Array();
+         let rowLength = i + 1;
+         let newRow = new Array();
          for (var j =0; j < rowLength; j++){
             // First and last element of the row is always equal to 1.
             if (j == 0 || j == i) {
@@ -93,7 +96,7 @@ function buildPascal(){
    return triangle;
 }
 
-/**********
+/**
 Function contains algorithm to expand the polynomial.
 
 1.The power of the first operand decreases from the original exponent
@@ -104,19 +107,31 @@ original exponent.
 
 3.The coefficient is derived from Pascal's triangle.
 Alternatively, you could use the binomial theorem to derive the coefficient.
-**********/
+*/
+function renderPoly() {
 
-function expandPoly() {
+   let operand1 = document.getElementById("operand1").value;
+   let operand2 = document.getElementById("operand2").value;
+   let exponent = document.getElementById("exponent").value;
+   let symbol = document.getElementById("operator").value;
 
-   var operand1 = document.getElementById("operand1").value;
-   var operand2 = document.getElementById("operand2").value;
-   var symbol = document.getElementById("operator").value;
-   var exponent = document.getElementById("exponent").value;
-   var terms = new Array("");
-   var numOfTerms = parseInt(exponent) + 1;
-   var operand1Power = exponent;
-   var operand2Power = 0;
-   var pascalTriangle = buildPascal();
+   let terms = buildTermsList(operand1, operand2, exponent);
+
+   let prelimFormula = obtainPrelim(terms, symbol);
+   updateElement("prelim", prelimFormula);
+
+   let simplifiedFormula = obtainSimplified(terms, symbol);
+   updateElement("simplified", simplifiedFormula);
+
+}
+
+function buildTermsList(operand1, operand2, exponent) {
+
+   let terms = new Array("");
+   let numOfTerms = parseInt(exponent) + 1;
+   let operand1Power = exponent;
+   let operand2Power = 0;
+   let pascalTriangle = buildPascal(exponent);
 
    // Create an array to hold all the terms of the expansion.
    for (var i=0; i < numOfTerms; i++) {
@@ -125,55 +140,53 @@ function expandPoly() {
       operand2Power++;
    }
 
-   renderPrelim(terms);
-   renderSimplified(terms);
-
+   return terms;
 }
 
-/**********
-Function will render a preliminary, unsimplified formula and
-format it in HTML.
-**********/
-function renderPrelim(terms) {
 
-   var PrelimOutput = "";
-   var prelimFormula = "";
-   var prelimSection = document.getElementById("prelim");
-   var coefficient = "";
-   var firstTerm = "";
-   var secondTerm = "";
-   var symbol = document.getElementById("operator").value;
+/**
+Function will render a preliminary, unsimplified formula and format it in HTML.
+@param {Array} terms All the terms for the expansion.
+@param {String} symbol The math operation (+, -).
+@return {String} Preliminary formula.
+*/
+function obtainPrelim(terms, symbol) {
+
+   let prelimFormula = "";
+   let coefficient = "";
+   let firstTerm = "";
+   let secondTerm = "";
 
    for (var i =0; i < terms.length; i++) {
 
       // Decompose the term.
-      var termSplit = terms[i].split("*");
-      var Term = "";
+      let termSplit = terms[i].split("*");
+      let Term = "";
 
       coefficient = "(" + "<span id=\"coefficient\" style=\"color\:red\">" +  termSplit[0] + "</span>" + ")";
 
       // If the exponent is 1, don't display the exponent.
       // If the exponent is 0, don't display anything (as the output is 1).
       if (termSplit[1].substring(2,3) == "1"){
-         var firstTerm = "(" + termSplit[1].substring(0,1) + ")";
+         firstTerm = "(" + termSplit[1].substring(0,1) + ")";
       }
       else if (termSplit[1].substring(2,3) == "0") {
-         var firstTerm= "";
+         firstTerm= "";
       }
       else {
-         var firstTerm = "(" + termSplit[1].substring(0,1) + "<sup>" + termSplit[1].substring(2,3) + "</sup>" + ")";
+         firstTerm = "(" + termSplit[1].substring(0,1) + "<sup>" + termSplit[1].substring(2,3) + "</sup>" + ")";
       }
 
       // If the exponent is 1, don't display the exponent.
       // If the exponent is 0, don't display anything (as the output is 1).
       if (termSplit[2].substring(2,3) == "1"){
-         var secondTerm = "(" + termSplit[2].substring(0,1) + ")";
+         secondTerm = "(" + termSplit[2].substring(0,1) + ")";
       }
       else if (termSplit[2].substring(2,3) == "0") {
-         var secondTerm = "";
+         secondTerm = "";
       }
       else {
-         var secondTerm = "(" + termSplit[2].substring(0,1) + "<sup>" + termSplit[2].substring(2,3) + "</sup>" + ")";
+         secondTerm = "(" + termSplit[2].substring(0,1) + "<sup>" + termSplit[2].substring(2,3) + "</sup>" + ")";
       }
 
       // Recombine the coefficient and 2 terms.
@@ -189,44 +202,42 @@ function renderPrelim(terms) {
             prelimFormula = prelimFormula + " + " + Term;
         }
         else {
-           var signCheck = i%2;
-           var sign = (signCheck != 0) ? " - " : " + ";
+           let signCheck = i%2;
+           let sign = (signCheck != 0) ? " - " : " + ";
            prelimFormula = prelimFormula + sign + Term;
         }
       }
    }
 
-   // Send formula to HTML.
-   prelimSection.innerHTML = "<strong>Preliminary formula:</strong><br>" + prelimFormula;
+   return "<strong>Preliminary formula:</strong><br>" + prelimFormula;
 }
 
-/**********
-Function will render the simplified formula and
-format it in HTML.
-**********/
-function renderSimplified(terms) {
+/**
+Function will render the simplified formula and format it in HTML.
+@param {Array} terms All the terms for the expansion.
+@param {String} symbol The math operation (+, -).
+@return {String} Preliminary formula.
+*/
+function obtainSimplified(terms, symbol) {
 
-   var PrelimOutput = "";
-   var simplifiedFormula = "";
-   var simplifiedSection = document.getElementById("simplified");
-   var symbol = document.getElementById("operator").value;
+   let simplifiedFormula = "";
 
    // First pass: evaluate exponents, if possible.
-   for (var i =0; i < terms.length; i++) {
+   for (let i =0; i < terms.length; i++) {
       // Decompose:
-      var termSplit = terms[i].split("*");
+      let termSplit = terms[i].split("*");
 
       if ( regexMatch("[0-9]\\^",termSplit[1]) ) {
-         var base = parseInt(termSplit[1].substring(0,1));
-         var expo = parseInt(termSplit[1].substring(2));
-         var baseToExpo = Math.pow(base,expo);
+         let base = parseInt(termSplit[1].substring(0,1));
+         let expo = parseInt(termSplit[1].substring(2));
+         let baseToExpo = Math.pow(base,expo);
          termSplit[1] = baseToExpo.toString();
       }
 
       if ( regexMatch("[0-9]\\^",termSplit[2]) ) {
-         var base = parseInt(termSplit[2].substring(0,1));
-         var expo = parseInt(termSplit[2].substring(2));
-         var baseToExpo = Math.pow(base,expo);
+         let base = parseInt(termSplit[2].substring(0,1));
+         let expo = parseInt(termSplit[2].substring(2));
+         let baseToExpo = Math.pow(base,expo);
          termSplit[2] = baseToExpo.toString();
       }
       //Recombine:
@@ -236,10 +247,9 @@ function renderSimplified(terms) {
    // Second pass: Simplify components of each term if possible.
    for (var j=0; j< terms.length; j++) {
 
-      var product = 1;
-      var unResolved = "";
-      var productString = "";
-      var termSplit = terms[j].split("*");
+      let product = 1;
+      let unResolved = "";
+      let termSplit = terms[j].split("*");
 
       if (!regexMatch("\\^",termSplit[0])) {
          product = product * parseInt(termSplit[0]);
@@ -265,10 +275,10 @@ function renderSimplified(terms) {
       terms[j] = product + unResolved;
    }
 
-   for (var k =0; k < terms.length; k++) {
+   for (let k =0; k < terms.length; k++) {
 
-      var Term = "";
-      var termSplit = terms[k].split("*");
+      let Term = "";
+      let termSplit = terms[k].split("*");
       for (var l=0; l < termSplit.length; l++) {
 
          if (regexMatch("\\^", termSplit[l])) {
@@ -306,26 +316,26 @@ function renderSimplified(terms) {
             simplifiedFormula = simplifiedFormula + sign + Term;
          }
       }
-
-      simplifiedSection.innerHTML = "<strong>Further simplified:</strong><br>" + simplifiedFormula;
    }
+
+   return "<strong>Further simplified:</strong><br>" + simplifiedFormula;
 }
 
-/**********
+/**
 Function validates user input.
-**********/
+*/
 function validateInput() {
 
-   var operand1 = document.getElementById("operand1");
-   var operand2 = document.getElementById("operand2");
-   var symbol = document.getElementById("operator");
-   var exponent = document.getElementById("exponent");
-   var operandCheck = "^[a-zA-Z0-9]+$";
-   var exponentCheck = "^[1-9]+$";
-   var validationPass = true;
-   var errorMessages = ["","","","", ""];
-   var errorMessagetxt = "";
-   var statusBox = document.getElementById("validationResults");
+   let operand1 = document.getElementById("operand1");
+   let operand2 = document.getElementById("operand2");
+   let symbol = document.getElementById("operator");
+   let exponent = document.getElementById("exponent");
+   let operandCheck = "^[a-zA-Z0-9]+$";
+   let exponentCheck = "^[1-9]+$";
+   let validationPass = true;
+   let errorMessages = ["","","","", ""];
+   let errorMessagetxt = "";
+   let statusBox = document.getElementById("validationResults");
 
    // Reset all formatting.
    symbol.style.backgroundColor = "white";
@@ -379,11 +389,21 @@ function validateInput() {
    return validationPass;
 }
 
-/**********
+function updateElement(element, value) {
+
+   let targetElement = document.getElementById(element);
+   targetElement.innerHTML = value;
+}
+
+
+/**
 Function will evaluate a regular expression against a string.
-**********/
+@param {String} pattern Regex test pattern.
+@param {String} target String to be tested.
+@return {Boolean} Whether or not the target conforms to the pattern.
+*/
 function regexMatch(pattern, target) {
-   var re = new RegExp(pattern);
+   let re = new RegExp(pattern);
    return re.test(target);
 }
 
@@ -392,8 +412,8 @@ Function invoked during event handler for each input field.
 **********/
 function nextField(selection) {
 
-   var operand2 = document.getElementById("operand2");
-   var exponent = document.getElementById("exponent");
+   let operand2 = document.getElementById("operand2");
+   let exponent = document.getElementById("exponent");
 
    if (selection.id == "operand1") {
       operand2.focus();
