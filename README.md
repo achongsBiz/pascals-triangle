@@ -10,6 +10,10 @@ This application will validate several inputs (2 operands, an operator, and an e
 
 Several concepts are explored: arrays, data type conflicts, regular expressions, and string manipulation.
 
+Unit testing is achieved through the use of Mocha/Chai.
+
 Components:
 1. jsDemo2.html: All UI elements are contained here.
 2. jsDemo2.js: Main script containining all JavaScript functions.
+3. test.html: Unit test runner.
+4. test.js: Test script.
