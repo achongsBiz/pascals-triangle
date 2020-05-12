@@ -1,7 +1,17 @@
+* { font-family: sans-serif;}
+
+#main {
+    margin : 10px;
+}
+
 .inputsValid {
     background-color: white;
 }
 
 .inputsInvalid {
     background-color: orange;
+}
+
+#footer {
+    font-size: 12px;
 }

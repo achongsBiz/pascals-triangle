@@ -5,38 +5,45 @@
     <link rel="stylesheet" type="text/css" href="pascals.css">
 </head>
 <body>
-    <H1>Pascal's Triangle</H1>
-    <table cellpadding="30">
-        <tr>
-            <td valign="top">
-            <p>Enter the terms to be evaluate in the fields below.
-            <ul>
-                <li> First Box: Enter a letter to denote a variable or number. </li>
-                <li> Second Box:  + by default, but can be changed to a -.</li>
-                <li> Third Box: Enter a letter to denote a variable or number.</li>
-                <li> Fourth Box: Enter a number to denote an exponent.</li>
-            </ul>
+    <div id='main'>
+        <h2>Pascal's Triangle</h2>
+        <table cellpadding="30">
+            <tr>
+                <td valign="top">
+                <p>Enter the terms to be evaluate in the fields below.
+                <ul>
+                    <li> First Box: Enter a letter to denote a variable or number. </li>
+                    <li> Second Box:  + by default, but can be changed to a -.</li>
+                    <li> Third Box: Enter a letter to denote a variable or number.</li>
+                    <li> Fourth Box: Enter a number to denote an exponent.</li>
+                </ul>
 
-            <p id="inputArea" > </p>
-            ( <input type="text" class='opElement' name="operand1" id="operand1"  maxlength="1" size="1">
-            <input type="text"  name="operator" id="operator" value="+" maxlength="1"  size="1">
-            <input type="text" class='opElement' name="operand2" id="operand2" maxlength="1"  size="1"> )
-            <sup><input type="text" name="exponent" id="exponent" maxlength="1"  size="1"></sup><br><br>
-            <button id="calculate">Evaluate</button>
-            </p>
-        </td>
-        <td valign="top">
-            <p id="triangleArea"></p><br>
-            <p id="prelim"> </p><br>
-            <p id="simplified"></p>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <p id="validationResults"></p>
-        </td>
-    </tr>
-    </table>
+                <p id="inputArea" > </p>
+                ( <input type="text" class='opElement' name="operand1" id="operand1"  maxlength="1" size="1">
+                <input type="text"  name="operator" id="operator" value="+" maxlength="1"  size="1">
+                <input type="text" class='opElement' name="operand2" id="operand2" maxlength="1"  size="1"> )
+                <sup><input type="text" name="exponent" id="exponent" maxlength="1"  size="1"></sup><br><br>
+                <button id="calculate">Evaluate</button>
+                </p>
+
+                <p id="validationResults"></p>
+
+            </td>
+            <td valign="top">
+                <div id='results'>
+                    <p id="triangleArea"></p>
+                    <p id="prelim"> </p>
+                    <p id="simplified"></p>
+                </div>
+            </td>
+        </tr>
+        </table>
+</div>
 <script type='text/javascript' src='pascals.js'></script>
+
+<footer id ='footer'>
+    [<a href='test.html'>Run Unit Tests</a> |
+    <a href='https://achongsbiz.github.io/'>Author Info</a>]
+</footer>
 </body>
 </html>
