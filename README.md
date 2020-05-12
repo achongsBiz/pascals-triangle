@@ -21,4 +21,4 @@ This is a browser application. It can simply be run by opening stats.html on a b
 
 ## Visuals
 
-![screenshot](https://github.com/achongsBiz/readme-files/blob/master/stats-calculator/pascals1.PNG)
+![screenshot](https://github.com/achongsBiz/readme-files/blob/master/pascals-triangle/pascals1.PNG)
