@@ -1,0 +1,7 @@
+.inputsValid {
+    background-color: white;
+}
+
+.inputsInvalid {
+    background-color: orange;
+}
