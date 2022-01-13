@@ -1,5 +1,8 @@
 # Pascal's Triangle
 
+## Site
+[   [https://achongs-business-pascals.netlify.app/pascals.html](https://achongs-business-pascals.netlify.app/pascals.html)    ]
+
 ## Introduction
 This application will validate several inputs (2 operands, an operator, and an exponent) from the user and from it:
 
