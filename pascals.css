@@ -15,3 +15,25 @@
 #footer {
     font-size: 12px;
 }
+
+#main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "description output"
+                          "input output";
+}
+
+#description {
+    grid-area: description;
+}
+
+#output {
+    grid-area: output;
+}
+
+#input {
+    grid-area: input;
+}
+
+
+

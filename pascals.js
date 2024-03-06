@@ -25,6 +25,8 @@ function submitAction() {
    }
 }
 
+
+
 /**
 Function renders Pascal's triangle into HTML.
 */
@@ -297,6 +299,9 @@ function obtainSimplified(terms, symbol) {
                else {
                   Term = Term + termSplit[l].substring(0,1);
                }
+            } else if (termSplit[l].substring(2,3) == "0") {
+
+               Term =  termSplit[0];
             }
          }
          else {
@@ -326,6 +331,22 @@ function obtainSimplified(terms, symbol) {
 
    return "<strong>Further simplified:</strong><br>" + simplifiedFormula;
 }
+
+/**
+ * 
+ * @param {Object} parent 
+ * @param {Object} child 
+ * @param {boolean} append
+ */
+function updateContent(parent, child, append) {
+
+   if(!append) {
+      parent.innerHTML = "";
+   }
+
+   parent.appendChild(child);
+}
+
 
 /**
 Function validates user input.
